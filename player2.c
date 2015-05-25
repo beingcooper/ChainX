@@ -33,31 +33,30 @@ int brk11(int c,int d)
        ptr->temp[c][d]=0;
        if(c==0)
        {
-        	 if(d==0)
-        	 {
-        	 add(c,d+1);
-        	 add(c+1,d);
-        	 }
-        	 else
-        	 { add(c,d-1);
-        	   add(c+1,d);
-        	 }
+	 if(d==0)
+	 {
+	 add(c,d+1);
+	 add(c+1,d);
+	 }
+	 else
+	 { add(c,d-1);
+	   add(c+1,d);
+	 }
+      }
+       else
+       {
+	 if(d==0)
+	 {
+	 add(c-1,d);
+	 add(c,d+1);
+	 }
+	 else
+	 {
+	 add(c-1,d);
+	 add(c,d-1);
+	 }
        }
-        
-        else
-        {
-           if(d==0)
-           {
-            add(c-1,d);
-            add(c,d+1);
-           }
-            else
-           	 {
-           	 add(c-1,d);
-           	 add(c,d-1);
-           	 }
-          }
-    }
+   }
 
    else if(((c%(7)==0)||(d%(7)==0))&&(ptr->count[c][d]>2))
    {
@@ -109,7 +108,7 @@ return 0;
 int add(int a,int b)
 {
   ptr->disp[a][b]=ch;
-  ptr->temp[a][b]=1;
+  ptr->temp[a][b]=2;
   ptr->count[a][b]++;
   table();
   sleep(1);
@@ -157,7 +156,7 @@ int check()
   {
    for(q=0;q<8;q++)
    {
-      if((ptr->temp[p][q]!=1)&&(ptr->temp[p][q]!=0))
+      if((ptr->temp[p][q]!=2)&&(ptr->temp[p][q]!=0))
       { flag=1;
 	break;
 
@@ -169,7 +168,7 @@ if(flag==1)
 { 
 return 0;
 }
-else { ptr->pos[0]=2;return 1;
+else { ptr->pos[1]=2;return 1;
 }
 }
 
@@ -213,13 +212,12 @@ printf("\n\t\t\t\ttHiS iS cHaInX\n");
 printf("\t\t\t\t--------------");
 table();
 
-printf("\nWelcome Player 1 \n");
-ptr->turn[0]=1;
-//printf("Wait for player 2 to play the move\n");
+printf("\nWelcome Player 2 \n");
+printf("Wait for player 1 to play the move\n");
 while(1)
 {
 
-if(ptr->turn[0]==1)
+if(ptr->turn[1]==1)
 {
 
 
@@ -228,16 +226,16 @@ beg:
 printf("Enter the number of row and column( separated by a space ),\nwhere you want to place your symbol \n");
 scanf("%d %d",&ptr->i,&ptr->j);
 
-if((ptr->temp[ptr->i][ptr->j]==0) || (ptr->temp[ptr->i][ptr->j]==1) )
+if((ptr->temp[ptr->i][ptr->j]==0) || (ptr->temp[ptr->i][ptr->j]==2) )
 goto end;
 else
 { printf("Position unavailable......enter again!\n");
   goto beg;
 }
 end:
-ptr->temp[ptr->i][ptr->j]=1;
+ptr->temp[ptr->i][ptr->j]=2;
 
-ch='@';
+ch='#';
 
 add(ptr->i,ptr->j);
 
@@ -259,24 +257,22 @@ exit(0);
 }
 
 
-ptr->pos[0]=1;
-ptr->turn[0]=0;
-printf(" Wait for player 2 to play the move\n");
+ptr->pos[1]=1;
+ptr->turn[1]=0;
+printf(" Wait for player 3 to play the move\n");
 sleep(5);
-ptr->turn[1]=1;
+ptr->turn[2]=1;
 pl++;
 }
 
 
-if(ptr->pos[1]==1)
+if(ptr->pos[0]==1)
 {
 system("clear");
-printf("Player 2 has chosen i=%d and j=%d\n",ptr->i,ptr->j);
+printf("Player 1 has chosen i=%d and j=%d\n",ptr->i,ptr->j);
 table();
 sleep(2);
-printf("Wait for player 3 to play the move\n");
-sleep(2);
-ptr->pos[1]=0;
+ptr->pos[0]=0;
 }
 
 
@@ -285,13 +281,15 @@ if(ptr->pos[2]==1)
 system("clear");
 printf("Player 3 has chosen i=%d and j=%d\n",ptr->i,ptr->j);
 table();
+printf("Wait for player 1 to play the move\n");
+sleep(2);
 ptr->pos[2]=0;
 }
 
 
-if(ptr->pos[1]==2)
+if(ptr->pos[0]==2)
 {system("clear"); 
-printf("\nPlayer 2 has won the game\nGame ends here.....\n");
+printf("\nPlayer 1 has won the game\nGame ends here.....\n");
 table();
 exit(0);
 }
